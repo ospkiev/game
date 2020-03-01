@@ -1,6 +1,6 @@
-# game
+# the_game
 
-> My exceptional Nuxt.js project
+> My superb Nuxt.js project
 
 ## Build Setup
 

@@ -8,10 +8,21 @@ module.exports = {
     parser: 'babel-eslint'
   },
   extends: [
-    '@nuxtjs',
-    'plugin:nuxt/recommended'
+    'plugin:vue/recommended',
+    'airbnb-base',
+  ],
+  plugins: [
+    'vue',
+    'html',
   ],
   // add your custom rules here
   rules: {
-  }
+    'import/no-unresolved': 'off',
+    'no-undef': 'off',
+    'no-shadow': 'off',
+    'no-param-reassign': ['error', { props: true, ignorePropertyModificationsFor: ['state'] }],
+    'import/no-extraneous-dependencies': 'off',
+    'no-underscore-dangle': 'off',
+    'vue/no-v-html': 'off',
+  },
 }
