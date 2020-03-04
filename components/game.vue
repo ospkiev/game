@@ -6,58 +6,71 @@
         md="6"
         class="pt-4"
       >
-        <div class="">
-          <button
-            type="button"
-            name="button"
-            class="button"
-            @click="showModes"
+        <button
+          type="button"
+          name="button"
+          class="button"
+          @click="showModes"
+        >
+          {{ activeModeName ? activeModeName : 'Pick the mode' }}
+          <ul
+            class="modes"
+            :class="{active : isShow}"
           >
-            {{ activeModeName ? activeModeName : 'Pick the mode' }}
-            <ul
-              class="modes"
-              :class="{active : isShow}"
+            <li
+              v-for="(value, name) in modes"
+              :key="name"
+              @click="changeMode(name, value)"
             >
-              <li
-                v-for="(value, name) in modes"
-                :key="name"
-                @click="changeMode(name, value)"
-              >
-                <p class="modes-item">
-                  {{ name }}
-                </p>
-                <ul>
-                  <li
-                    v-for="(el, title) in value"
-                    :key="el"
-                    class="modes-subitem"
-                  >
-                    {{ title }} : {{ el }}
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </button>
-          <input
-            v-model="name"
-            type="text"
-            name=""
-          >
-          <button
-            type="button"
-            name="button"
-            class="play"
-          >
-            PLAY
-          </button>
-          <div class="">
-            <p>{{ name }}</p>
-          </div>
-          <div class="field">
-            <div class="cell">
-              1
-            </div>
-          </div>
+              <p class="modes-item">
+                {{ name }}
+              </p>
+              <ul>
+                <li
+                  v-for="(el, title) in value"
+                  :key="el"
+                  class="modes-subitem"
+                >
+                  {{ title }} : {{ el }}
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </button>
+        <input
+          ref="input"
+          v-model="name"
+          type="text"
+          placeholder="Enter your name"
+        >
+        <button
+          type="button"
+          name="button"
+          class="play"
+          @click="startGame()"
+        >
+          PLAY
+        </button>
+        <div class="">
+          <p>{{ name }}</p>
+        </div>
+        <div class="main">
+          <ul class="field">
+            <li
+              v-for="el in activeModeParams.field"
+              :key="el"
+              :style="{height: `${setHeight}%`}"
+            >
+              <ul class="d-flex h-100">
+                <li
+                  v-for="item in activeModeParams.field"
+                  :key="item"
+                  class="cell"
+                  :style="{width: `${setWidth}%`}"
+                />
+              </ul>
+            </li>
+          </ul>
         </div>
       </b-col>
       <b-col
@@ -96,6 +109,14 @@ export default {
       modes: state => state.getMode.getMode,
       winners: state => state.winners.winners,
     }),
+    setWidth() {
+      const { field = 1 } = this.activeModeParams;
+      return 100 / field;
+    },
+    setHeight() {
+      const { field = 1 } = this.activeModeParams;
+      return 100 / field;
+    },
   },
   methods: {
     showModes() {
@@ -104,11 +125,9 @@ export default {
     changeMode(item, value) {
       this.activeModeName = item;
       this.activeModeParams = value;
-      this.setWidth();
     },
-    setWidth() {
-      const cell = document.querySelector('cell');
-      cell.style.setProperty('--width', '100px');
+    startGame() {
+      this.$refs.input.value = '';
     },
   },
 };
@@ -123,6 +142,12 @@ margin: 0;
 
 ul {
   list-style: none;;
+}
+
+.main {
+  height: 70%;
+  width: 70%;
+  margin: 0 auto;
 }
 
 .button {
@@ -163,12 +188,17 @@ ul {
 }
 
 .cell {
-  display: inline-block;
-  --width: 30px;
-  height: 33px;
   background-color: #8FBC8F;
-  text-align: center;
-  vertical-align: middle;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: .1px solid #222;
+}
+
+.field {
+  width: 100%;
+  height: 100%;
+  background-color: grey;
 }
 
 .active {
