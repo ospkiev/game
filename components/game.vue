@@ -13,29 +13,10 @@
           @click="showModes"
         >
           {{ activeModeName ? activeModeName : 'Pick the mode' }}
-          <ul
-            class="modes"
-            :class="{active : isShow}"
-          >
-            <li
-              v-for="(value, name) in modes"
-              :key="name"
-              @click="changeMode(name, value)"
-            >
-              <p class="modes-item">
-                {{ name }}
-              </p>
-              <ul>
-                <li
-                  v-for="(el, title) in value"
-                  :key="el"
-                  class="modes-subitem"
-                >
-                  {{ title }} : {{ el }}
-                </li>
-              </ul>
-            </li>
-          </ul>
+          <modal
+            :is-show="isShow"
+            @change-mode="changeMode"
+          />
         </button>
         <input
           ref="input"
@@ -59,6 +40,7 @@
             <li
               v-for="el in activeModeParams.field"
               :key="el"
+              class="cell_row"
               :style="{height: `${setHeight}%`}"
             >
               <ul class="d-flex h-100">
@@ -96,8 +78,12 @@
 
 <script>
 import { mapState } from 'vuex';
+import modal from '~/components/modal/modal.vue';
 
 export default {
+  components: {
+    modal,
+  },
   data: () => ({
     isShow: false,
     activeModeName: '',
@@ -106,7 +92,6 @@ export default {
   }),
   computed: {
     ...mapState({
-      modes: state => state.getMode.getMode,
       winners: state => state.winners.winners,
     }),
     setWidth() {
@@ -122,8 +107,8 @@ export default {
     showModes() {
       this.isShow = !this.isShow;
     },
-    changeMode(item, value) {
-      this.activeModeName = item;
+    changeMode(name, value) {
+      this.activeModeName = name;
       this.activeModeParams = value;
     },
     startGame() {
@@ -158,25 +143,6 @@ ul {
   text-transform: uppercase;
 }
 
-.modes {
-  background-color: grey;
-  top: 47px;
-  position: absolute;
-  right: 110%;
-  width: 100%;
-  text-align: left;
-  transition: 0.3s ease-in-out;
-  &-item {
-    cursor: pointer;
-    color: #222;
-    font-size: 14px;
-    text-transform: uppercase;
-  }
-  &-subitem {
-    font-size: 10px;
-  }
-}
-
 .play {
   width: 33%;
 }
@@ -193,6 +159,10 @@ ul {
   justify-content: center;
   align-items: center;
   border: .1px solid #222;
+  transition: 0.3s ease-in-out;
+  &_row {
+    transition: 0.3s ease-in-out;
+  }
 }
 
 .field {
@@ -202,6 +172,6 @@ ul {
 }
 
 .active {
-  right: 0;
+  top: 25px;
 }
 </style>
