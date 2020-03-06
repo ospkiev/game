@@ -36,7 +36,10 @@
           <p>{{ name }}</p>
         </div>
         <div class="main">
-          <ul class="field">
+          <ul
+            class="field"
+            @click="getCell"
+          >
             <li
               v-for="el in activeModeParams.field"
               :key="el"
@@ -46,6 +49,7 @@
               <ul class="d-flex h-100">
                 <li
                   v-for="item in activeModeParams.field"
+                  :id="`${el}${item}`"
                   :key="item"
                   class="cell"
                   :style="{width: `${setWidth}%`}"
@@ -113,6 +117,9 @@ export default {
     },
     startGame() {
       this.$refs.input.value = '';
+    },
+    getCell(e) {
+      console.log(e.target.id);
     },
   },
 };
