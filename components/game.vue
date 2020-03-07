@@ -51,6 +51,7 @@
                   v-for="item in activeModeParams.field"
                   :id="`${el}${item}`"
                   :key="item"
+                  :ref="`${el}${item}`"
                   class="cell"
                   :style="{width: `${setWidth}%`}"
                 />
@@ -119,7 +120,8 @@ export default {
       this.$refs.input.value = '';
     },
     getCell(e) {
-      console.log(e.target.id);
+      const { id } = e.target;
+      console.log(this.$refs[id]);
     },
   },
 };
