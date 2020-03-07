@@ -53,7 +53,7 @@
                   :key="item"
                   :ref="`${el}${item}`"
                   class="cell"
-                  :style="{width: `${setWidth}%`}"
+                  :style="{width: `${setWidth}%`, backgroundColor: bgcolor}"
                 />
               </ul>
             </li>
@@ -94,6 +94,7 @@ export default {
     activeModeName: '',
     activeModeParams: {},
     name: '',
+    bgcolor: 'red',
   }),
   computed: {
     ...mapState({
@@ -121,7 +122,7 @@ export default {
     },
     getCell(e) {
       const { id } = e.target;
-      console.log(this.$refs[id]);
+      console.log(this.$refs[id], id);
     },
   },
 };
