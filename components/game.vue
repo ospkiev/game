@@ -28,7 +28,7 @@
           type="button"
           name="button"
           class="play"
-          @click="startGame()"
+          @click="startGame"
         >
           PLAY
         </button>
@@ -38,7 +38,6 @@
         <div class="main">
           <ul
             class="field"
-            @click="getCell"
           >
             <li
               v-for="el in activeModeParams.field"
@@ -53,7 +52,10 @@
                   :key="item"
                   :ref="`${el}${item}`"
                   class="cell"
-                  :style="{width: `${setWidth}%`, backgroundColor: bgcolor}"
+                  :style="{width: `${setWidth}%`}"
+                  :class="[userCell.includes(`${el}${item}`) ? 'catch_cell'
+                    : computerCell.includes(`${el}${item}`) ? 'computer_cell' : '']"
+                  @click="catchCell"
                 />
               </ul>
             </li>
@@ -94,7 +96,9 @@ export default {
     activeModeName: '',
     activeModeParams: {},
     name: '',
-    bgcolor: 'red',
+    isTarget: null,
+    computerCell: [],
+    userCell: [],
   }),
   computed: {
     ...mapState({
@@ -119,10 +123,41 @@ export default {
     },
     startGame() {
       this.$refs.input.value = '';
+      setInterval(() => this.randomCell(), this.activeModeParams.delay);
     },
-    getCell(e) {
+    catchCell(e) {
       const { id } = e.target;
-      console.log(this.$refs[id], id);
+      this.userCell.push(id);
+      this.computerCell.pop();
+    },
+    randomCell() {
+      if (this.computerCell.length > (this.activeModeParams.field
+        * this.activeModeParams.field) / 2
+        || this.userCell.length > (this.activeModeParams.field
+          * this.activeModeParams.field) / 2) {
+        return;
+      }
+      let num1 = Number((Math.random() * 10).toFixed(0));
+      let num2 = Number((Math.random() * 10).toFixed(0));
+      if (num2 === 0) {
+        num2 += 1;
+      }
+      if (num1 === 0) {
+        num1 += 1;
+      }
+      if (num1 > this.activeModeParams.field) {
+        num1 -= this.activeModeParams.field;
+      }
+      if (num2 > this.activeModeParams.field) {
+        num2 -= this.activeModeParams.field;
+      }
+      const num = `${num1}${num2}`;
+      if (this.computerCell.includes(num)) {
+        this.randomCell();
+      } else {
+        this.computerCell.push(num);
+      }
+      this.isTarget = num;
     },
   },
 };
@@ -164,10 +199,6 @@ ul {
 }
 
 .cell {
-  background-color: #8FBC8F;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   border: .1px solid #222;
   transition: 0.3s ease-in-out;
   &_row {
@@ -183,5 +214,13 @@ ul {
 
 .active {
   top: 25px;
+}
+
+.computer_cell {
+  background-color: red;
+}
+
+.catch_cell {
+  background-color: blue;
 }
 </style>
