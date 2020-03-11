@@ -96,7 +96,7 @@ export default {
     activeModeName: '',
     activeModeParams: {},
     name: '',
-    isTarget: null,
+    interval: null,
     computerCell: [],
     userCell: [],
   }),
@@ -122,8 +122,13 @@ export default {
       this.activeModeParams = value;
     },
     startGame() {
-      this.$refs.input.value = '';
-      setInterval(() => this.randomCell(), this.activeModeParams.delay);
+      if (!this.activeModeName) {
+        alert('pick the mode');
+      } else {
+        this.$refs.input.value = '';
+        this.interval = setInterval(() => this.randomCell(), this.activeModeParams.delay);
+        console.log('start');
+      }
     },
     catchCell(e) {
       const { id } = e.target;
@@ -135,7 +140,8 @@ export default {
         * this.activeModeParams.field) / 2
         || this.userCell.length > (this.activeModeParams.field
           * this.activeModeParams.field) / 2) {
-        return;
+        clearInterval(this.interval);
+        console.log('stop');
       }
       let num1 = Number((Math.random() * 10).toFixed(0));
       let num2 = Number((Math.random() * 10).toFixed(0));
@@ -152,12 +158,11 @@ export default {
         num2 -= this.activeModeParams.field;
       }
       const num = `${num1}${num2}`;
-      if (this.computerCell.includes(num)) {
+      if (this.computerCell.includes(num) || this.userCell.includes(num)) {
         this.randomCell();
       } else {
         this.computerCell.push(num);
       }
-      this.isTarget = num;
     },
   },
 };
