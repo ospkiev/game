@@ -132,9 +132,11 @@ export default {
     },
     included(item, targetArray = [], isIncluded = []) {
       if (isIncluded.includes(item)) {
+        console.log(isIncluded);
         return;
       }
       targetArray.push(item);
+      console.log(targetArray);
     },
     catchCell(e) {
       const { id } = e.target;
@@ -143,20 +145,6 @@ export default {
       }
     },
     ramdomNumber() {
-      
-    }
-    randomCell() {
-      if (this.computerCell.length > (this.activeModeParams.field
-        * this.activeModeParams.field) / 2
-        || this.userCell.length > (this.activeModeParams.field
-          * this.activeModeParams.field) / 2) {
-        clearInterval(this.interval);
-        if (this.computerCell.length > this.userCell.length) {
-          alert('Cumputer win');
-        } else {
-          alert('User win');
-        }
-      }
       let num1 = Number((Math.random() * 10).toFixed(0));
       let num2 = Number((Math.random() * 10).toFixed(0));
       if (num2 === 0) {
@@ -171,9 +159,23 @@ export default {
       if (num2 > this.activeModeParams.field) {
         num2 -= this.activeModeParams.field;
       }
-      const num = `${num1}${num2}`;
+      return `${num1}${num2}`;
+    },
+    randomCell() {
+      if (this.computerCell.length > (this.activeModeParams.field
+        * this.activeModeParams.field) / 2
+        || this.userCell.length > (this.activeModeParams.field
+          * this.activeModeParams.field) / 2) {
+        clearInterval(this.interval);
+        if (this.computerCell.length > this.userCell.length) {
+          alert('Cumputer win');
+        } else {
+          alert('User win');
+        }
+      }
+      const num = this.ramdomNumber();
       if (this.computerCell.includes(num) || this.userCell.includes(num)) {
-        this.randomCell();
+        this.ramdomNumber();
       } else {
         this.activeCell = num;
         setTimeout(this.included(num, this.computerCell, this.userCell),
