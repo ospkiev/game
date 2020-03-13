@@ -99,6 +99,7 @@ export default {
     interval: null,
     computerCell: [],
     userCell: [],
+    activeCell: '',
   }),
   computed: {
     ...mapState({
@@ -127,21 +128,34 @@ export default {
       } else {
         this.$refs.input.value = '';
         this.interval = setInterval(() => this.randomCell(), this.activeModeParams.delay);
-        console.log('start');
       }
+    },
+    included(item, targetArray = [], isIncluded = []) {
+      if (isIncluded.includes(item)) {
+        return;
+      }
+      targetArray.push(item);
     },
     catchCell(e) {
       const { id } = e.target;
-      this.userCell.push(id);
-      this.computerCell.pop();
+      if (id === this.activeCell) {
+        this.included(id, this.userCell, this.computerCell);
+      }
     },
+    ramdomNumber() {
+      
+    }
     randomCell() {
       if (this.computerCell.length > (this.activeModeParams.field
         * this.activeModeParams.field) / 2
         || this.userCell.length > (this.activeModeParams.field
           * this.activeModeParams.field) / 2) {
         clearInterval(this.interval);
-        console.log('stop');
+        if (this.computerCell.length > this.userCell.length) {
+          alert('Cumputer win');
+        } else {
+          alert('User win');
+        }
       }
       let num1 = Number((Math.random() * 10).toFixed(0));
       let num2 = Number((Math.random() * 10).toFixed(0));
@@ -161,7 +175,9 @@ export default {
       if (this.computerCell.includes(num) || this.userCell.includes(num)) {
         this.randomCell();
       } else {
-        this.computerCell.push(num);
+        this.activeCell = num;
+        setTimeout(this.included(num, this.computerCell, this.userCell),
+          this.activeModeParams.delay);
       }
     },
   },
