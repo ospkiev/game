@@ -6,34 +6,38 @@
         md="6"
         class="pt-4"
       >
-        <button
-          type="button"
-          name="button"
-          class="button"
-          @click="showModes"
-        >
-          {{ activeModeName ? activeModeName : 'Pick the mode' }}
-          <modal
-            :is-show="isShow"
-            @change-mode="changeMode"
-          />
-        </button>
-        <input
-          ref="input"
-          v-model="name"
-          type="text"
-          placeholder="Enter your name"
-        >
-        <button
-          type="button"
-          name="button"
-          class="play"
-          @click="startGame"
-        >
-          PLAY
-        </button>
-        <div class="">
-          <p>{{ name }}</p>
+        <div class="d-flex">
+          <button
+            type="button"
+            name="button"
+            class="button"
+            @click="showModes"
+          >
+            {{ activeModeName ? activeModeName : 'Pick the mode' }}
+            <modal
+              :is-show="isShow"
+              @change-mode="changeMode"
+            />
+          </button>
+          <input
+            ref="input"
+            v-model="name"
+            type="text"
+            placeholder="Enter your name"
+          >
+          <button
+            type="button"
+            name="button"
+            class="play"
+            @click="startGame"
+          >
+            PLAY
+          </button>
+        </div>
+        <div class="name">
+          <div>
+            <p>{{ name }}</p>
+          </div>
         </div>
         <div class="main">
           <ul
@@ -114,6 +118,26 @@ export default {
       return 100 / field;
     },
   },
+  watch: {
+    computerCell: {
+      handler() {
+        if (this.computerCell.length > (this.activeModeParams.field
+        * this.activeModeParams.field) / 2) {
+          clearInterval(this.interval);
+          alert('Cumputer win');
+        }
+      },
+    },
+    userCell: {
+      handler() {
+        if (this.userCell.length > (this.activeModeParams.field
+        * this.activeModeParams.field) / 2) {
+          clearInterval(this.interval);
+          alert('User win');
+        }
+      },
+    },
+  },
   methods: {
     showModes() {
       this.isShow = !this.isShow;
@@ -130,18 +154,16 @@ export default {
         this.interval = setInterval(this.randomCell, this.activeModeParams.delay);
       }
     },
-    included(item, targetArray = [], isIncluded = []) {
+    included(item, targetArray, isIncluded) {
       if (isIncluded.includes(item)) {
         return;
       }
       targetArray.push(item);
-      console.log(targetArray);
     },
     catchCell(e) {
       const { id } = e.target;
       if (id === this.activeCell) {
         this.included(id, this.userCell, this.computerCell);
-        console.log(id, this.userCell);
       }
     },
     randomNumber() {
@@ -162,25 +184,13 @@ export default {
       return `${num1}${num2}`;
     },
     randomCell() {
-      if (this.computerCell.length > (this.activeModeParams.field
-        * this.activeModeParams.field) / 2
-        || this.userCell.length > (this.activeModeParams.field
-          * this.activeModeParams.field) / 2) {
-        clearInterval(this.interval);
-        if (this.computerCell.length > this.userCell.length) {
-          alert('Cumputer win');
-        } else {
-          alert('User win');
-        }
-      }
       const num = this.randomNumber();
       if (this.computerCell.includes(num) || this.userCell.includes(num)) {
         this.randomNumber();
       } else {
         this.activeCell = num;
-        console.log(num);
-        setTimeout(this.included,
-          this.activeModeParams.delay, num, this.computerCell, this.userCell);
+        setTimeout(() => this.included(num, this.computerCell, this.userCell),
+          this.activeModeParams.delay - 30);
       }
     },
   },
@@ -196,6 +206,10 @@ margin: 0;
 
 ul {
   list-style: none;;
+}
+
+.name {
+  min-height: 40px;
 }
 
 .main {
@@ -237,7 +251,7 @@ ul {
 }
 
 .active {
-  top: 25px;
+  left: 0;
 }
 
 .computer_cell {

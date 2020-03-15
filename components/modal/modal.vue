@@ -11,15 +11,6 @@
       <p class="modes-item">
         {{ name }}
       </p>
-      <ul>
-        <li
-          v-for="(el, title) in value"
-          :key="el"
-          class="modes-subitem"
-        >
-          {{ title }} : {{ el }}
-        </li>
-      </ul>
     </li>
   </ul>
 </template>
@@ -51,20 +42,23 @@ export default {
 
 .modes {
   background-color: grey;
-  top: -220px;
+  top: 25px;
   position: absolute;
-  left: 0;
+  left: -500px;
   width: 100%;
   text-align: left;
   transition: 0.3s ease-in-out;
-  & li {
-      border: 0.3px solid #222;
-  }
+  border: 1px solid #222;
   &-item {
     cursor: pointer;
     color: #222;
     font-size: 14px;
     text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 5px 0;
   }
   &-subitem {
     font-size: 10px;
