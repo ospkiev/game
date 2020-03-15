@@ -127,12 +127,11 @@ export default {
         alert('pick the mode');
       } else {
         this.$refs.input.value = '';
-        this.interval = setInterval(() => this.randomCell(), this.activeModeParams.delay);
+        this.interval = setInterval(this.randomCell, this.activeModeParams.delay);
       }
     },
     included(item, targetArray = [], isIncluded = []) {
       if (isIncluded.includes(item)) {
-        console.log(isIncluded);
         return;
       }
       targetArray.push(item);
@@ -142,9 +141,10 @@ export default {
       const { id } = e.target;
       if (id === this.activeCell) {
         this.included(id, this.userCell, this.computerCell);
+        console.log(id, this.userCell);
       }
     },
-    ramdomNumber() {
+    randomNumber() {
       let num1 = Number((Math.random() * 10).toFixed(0));
       let num2 = Number((Math.random() * 10).toFixed(0));
       if (num2 === 0) {
@@ -173,13 +173,14 @@ export default {
           alert('User win');
         }
       }
-      const num = this.ramdomNumber();
+      const num = this.randomNumber();
       if (this.computerCell.includes(num) || this.userCell.includes(num)) {
-        this.ramdomNumber();
+        this.randomNumber();
       } else {
         this.activeCell = num;
-        setTimeout(this.included(num, this.computerCell, this.userCell),
-          this.activeModeParams.delay);
+        console.log(num);
+        setTimeout(this.included,
+          this.activeModeParams.delay, num, this.computerCell, this.userCell);
       }
     },
   },
