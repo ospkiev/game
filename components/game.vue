@@ -7,7 +7,7 @@
         class="pt-4"
       >
         <div class="d-flex">
-          <button
+          <b-button
             type="button"
             name="button"
             class="button"
@@ -18,7 +18,7 @@
               :is-show="isShow"
               @change-mode="changeMode"
             />
-          </button>
+          </b-button>
           <input
             ref="input"
             v-model="name"
@@ -29,13 +29,16 @@
             type="button"
             name="button"
             class="play"
-            @click="startGame"
+            @click="play"
           >
-            PLAY
+            {{ playButton }}
           </button>
         </div>
         <div class="name">
-          <div>
+          <div class="d-flex justify-content-between">
+            <p class="date px-2">
+              {{ date }}
+            </p>
             <p>{{ name }}</p>
           </div>
         </div>
@@ -87,6 +90,17 @@
         </ul>
       </b-col>
     </b-row>
+    <b-modal
+      id="modal-center"
+      ref="winner-modal"
+      hide-footer
+      centered
+      title="Winner"
+    >
+      <p class="my-4">
+        {{ name }}
+      </p>
+    </b-modal>
   </b-container>
 </template>
 
@@ -107,6 +121,8 @@ export default {
     computerCell: [],
     userCell: [],
     activeCell: '',
+    playButton: 'Play',
+    date: null,
   }),
   computed: {
     ...mapState({
@@ -126,8 +142,7 @@ export default {
       handler() {
         if (this.computerCell.length > (this.activeModeParams.field
         * this.activeModeParams.field) / 2) {
-          clearInterval(this.timer);
-          alert('Cumputer win');
+          this.end('Computer');
         }
       },
     },
@@ -135,11 +150,13 @@ export default {
       handler() {
         if (this.userCell.length > (this.activeModeParams.field
         * this.activeModeParams.field) / 2) {
-          clearInterval(this.timer);
-          alert('User win');
+          this.end(this.name);
         }
       },
     },
+  },
+  created() {
+    this.time();
   },
   methods: {
     showModes() {
@@ -149,9 +166,30 @@ export default {
       this.activeModeName = name;
       this.activeModeParams = value;
     },
+    end(winner) {
+      clearTimeout(this.timer);
+      this.name = `${winner} win`;
+      this.$refs['winner-modal'].show();
+      this.playButton = 'Play again';
+      this.activeModeName = '';
+      this.activeCell = '';
+    },
+    play() {
+      if (this.playButton === 'Play again') {
+        this.playButton = 'Play';
+        this.computerCell = [];
+        this.userCell = [];
+        this.name = '';
+        this.activeModeParams = {};
+      } else {
+        this.startGame();
+      }
+    },
     startGame() {
       if (!this.activeModeName) {
         alert('pick the mode');
+      } else if (!this.name) {
+        alert('Enter your name');
       } else {
         this.$refs.input.value = '';
         this.randomCell();
@@ -191,12 +229,17 @@ export default {
       const num = this.randomNumber();
       if (this.computerCell.includes(num) || this.userCell.includes(num)) {
         this.randomCell();
-      } else {
+      } else if (this.activeModeName) {
         this.activeCell = num;
         setTimeout(() => this.included(num, this.computerCell, this.userCell),
           this.activeModeParams.delay - 50);
         this.timer = setTimeout(() => this.randomCell(), this.activeModeParams.delay);
       }
+    },
+    time() {
+      setInterval(() => {
+        this.date = new Date().toISOString().substr(0, 19);
+      }, 1000);
     },
   },
 };
@@ -265,5 +308,9 @@ ul {
 
 .catch_cell {
   background-color: blue;
+}
+
+.date {
+  width: max-content;
 }
 </style>
