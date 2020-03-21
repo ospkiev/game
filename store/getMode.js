@@ -15,7 +15,7 @@ export const actions = {
       commit('SET_MODE', data);
       return false;
     } catch (error) {
-      return console.log(error);
+      return alert('error');
     }
   },
 };

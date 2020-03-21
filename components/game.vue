@@ -49,7 +49,10 @@
               class="cell_row"
               :style="{height: `${setHeight}%`}"
             >
-              <ul class="d-flex h-100">
+              <ul
+                class="d-flex h-100"
+                @click="catchCell"
+              >
                 <li
                   v-for="item in activeModeParams.field"
                   :id="`${el}${item}`"
@@ -58,8 +61,8 @@
                   class="cell"
                   :style="{width: `${setWidth}%`}"
                   :class="[userCell.includes(`${el}${item}`) ? 'catch_cell'
-                    : computerCell.includes(`${el}${item}`) ? 'computer_cell' : '']"
-                  @click="catchCell"
+                    : computerCell.includes(`${el}${item}`)
+                      || activeCell === `${el}${item}` ? 'computer_cell' : '']"
                 />
               </ul>
             </li>
@@ -100,7 +103,7 @@ export default {
     activeModeName: '',
     activeModeParams: {},
     name: '',
-    interval: null,
+    timer: null,
     computerCell: [],
     userCell: [],
     activeCell: '',
@@ -123,7 +126,7 @@ export default {
       handler() {
         if (this.computerCell.length > (this.activeModeParams.field
         * this.activeModeParams.field) / 2) {
-          clearInterval(this.interval);
+          clearInterval(this.timer);
           alert('Cumputer win');
         }
       },
@@ -132,7 +135,7 @@ export default {
       handler() {
         if (this.userCell.length > (this.activeModeParams.field
         * this.activeModeParams.field) / 2) {
-          clearInterval(this.interval);
+          clearInterval(this.timer);
           alert('User win');
         }
       },
@@ -151,7 +154,7 @@ export default {
         alert('pick the mode');
       } else {
         this.$refs.input.value = '';
-        this.interval = setInterval(this.randomCell, this.activeModeParams.delay);
+        this.randomCell();
       }
     },
     included(item, targetArray, isIncluded) {
@@ -164,6 +167,7 @@ export default {
       const { id } = e.target;
       if (id === this.activeCell) {
         this.included(id, this.userCell, this.computerCell);
+        this.activeCell = '';
       }
     },
     randomNumber() {
@@ -186,11 +190,12 @@ export default {
     randomCell() {
       const num = this.randomNumber();
       if (this.computerCell.includes(num) || this.userCell.includes(num)) {
-        this.randomNumber();
+        this.randomCell();
       } else {
         this.activeCell = num;
         setTimeout(() => this.included(num, this.computerCell, this.userCell),
-          this.activeModeParams.delay - 30);
+          this.activeModeParams.delay - 50);
+        this.timer = setTimeout(() => this.randomCell(), this.activeModeParams.delay);
       }
     },
   },
