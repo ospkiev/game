@@ -1,7 +1,6 @@
 <template lang="html">
   <b-container
     fluid
-    class="container"
   >
     <b-row>
       <b-col
@@ -40,10 +39,12 @@
         </div>
         <div class="name">
           <div class="d-flex justify-content-between">
-            <p class="date px-2">
+            <p class="date pl-3">
               {{ date }}
             </p>
-            <p>{{ name }}</p>
+            <p class="pr-3">
+              {{ name }}
+            </p>
           </div>
         </div>
         <div class="main">
@@ -321,7 +322,8 @@ ul {
 .field {
   width: 100%;
   height: 100%;
-  background-color: #D3F0D1;
+  min-height: 280px;
+  background-color: #85D6CE;
 }
 
 .active {

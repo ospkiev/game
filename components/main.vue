@@ -55,6 +55,9 @@ h1 {
   text-shadow: 1px 0 #2124ff;
   animation: glitch2 10s infinite ease;
 }
+@media(max-width: 789px) {
+  font-size: 50px;
+}
 }
 
 @keyframes glitch1 {
