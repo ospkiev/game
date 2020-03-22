@@ -1,11 +1,11 @@
 
 export const state = () => ({
-  getMode: {},
+  getmode: {},
 });
 
 export const mutations = {
   SET_MODE(state, data) {
-    state.getMode = data;
+    state.getmode = data;
   },
 };
 export const actions = {

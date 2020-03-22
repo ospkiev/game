@@ -27,7 +27,7 @@ export default {
   },
   computed: {
     ...mapState({
-      modes: state => state.getMode.getMode,
+      modes: state => state.getmode.getmode,
     }),
   },
   methods: {

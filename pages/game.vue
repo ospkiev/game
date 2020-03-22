@@ -10,7 +10,7 @@ export default {
     game,
   },
   async fetch({ store }) {
-    await store.dispatch('getMode/fetch');
+    await store.dispatch('getmode/fetch');
     await store.dispatch('winners/fetch');
   },
 };

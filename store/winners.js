@@ -18,4 +18,13 @@ export const actions = {
       return alert('error');
     }
   },
+  async add({ dispatch }, obj) {
+    try {
+      await this.$axios.post('https://starnavi-frontend-test-task.herokuapp.com/winners', obj);
+      await dispatch('fetch');
+      return false;
+    } catch (error) {
+      return alert('error');
+    }
+  },
 };

@@ -1,5 +1,8 @@
 <template lang="html">
-  <b-container fluid>
+  <b-container
+    fluid
+    class="container"
+  >
     <b-row>
       <b-col
         cols="12"
@@ -19,20 +22,21 @@
               @change-mode="changeMode"
             />
           </b-button>
-          <input
+          <b-form-input
             ref="input"
             v-model="name"
+            class="px-1"
             type="text"
             placeholder="Enter your name"
-          >
-          <button
+          />
+          <b-button
             type="button"
             name="button"
             class="play"
             @click="play"
           >
             {{ playButton }}
-          </button>
+          </b-button>
         </div>
         <div class="name">
           <div class="d-flex justify-content-between">
@@ -98,14 +102,14 @@
       title="Winner"
     >
       <p class="my-4">
-        {{ name }}
+        {{ `${name} winner` }}
       </p>
     </b-modal>
   </b-container>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import modal from '~/components/modal/modal.vue';
 
 export default {
@@ -159,6 +163,15 @@ export default {
     this.time();
   },
   methods: {
+    ...mapActions({
+      add: 'winners/add',
+    }),
+    async updateWinnres() {
+      const error = await this.add({ id: Date.now(), winner: this.name, date: this.date });
+      if (error) {
+        alert('error', error);
+      }
+    },
     showModes() {
       this.isShow = !this.isShow;
     },
@@ -166,32 +179,38 @@ export default {
       this.activeModeName = name;
       this.activeModeParams = value;
     },
+    startPosition() {
+      this.playButton = 'Play';
+      this.computerCell = [];
+      this.userCell = [];
+      this.name = '';
+      this.activeModeParams = {};
+      clearTimeout(this.timer);
+    },
     end(winner) {
       clearTimeout(this.timer);
-      this.name = `${winner} win`;
+      this.name = `${winner}`;
       this.$refs['winner-modal'].show();
       this.playButton = 'Play again';
       this.activeModeName = '';
       this.activeCell = '';
+      this.updateWinnres();
     },
     play() {
-      if (this.playButton === 'Play again') {
-        this.playButton = 'Play';
-        this.computerCell = [];
-        this.userCell = [];
-        this.name = '';
-        this.activeModeParams = {};
+      if (this.playButton === 'Play again' || this.playButton === 'Stop') {
+        this.startPosition();
       } else {
-        this.startGame();
+        this.start();
       }
     },
-    startGame() {
+    start() {
       if (!this.activeModeName) {
         alert('pick the mode');
       } else if (!this.name) {
         alert('Enter your name');
       } else {
         this.$refs.input.value = '';
+        this.playButton = 'Stop';
         this.randomCell();
       }
     },
@@ -238,7 +257,7 @@ export default {
     },
     time() {
       setInterval(() => {
-        this.date = new Date().toISOString().substr(0, 19);
+        this.date = new Date().toLocaleString().substr(0, 20);
       }, 1000);
     },
   },
@@ -256,6 +275,10 @@ ul {
   list-style: none;;
 }
 
+.container {
+  background-color: #85D6CE;
+}
+
 .name {
   min-height: 40px;
 }
@@ -267,15 +290,18 @@ ul {
 }
 
 .button {
-  background-color: grey;
+  background-color: #AFB7E4;
   color: #ffffff;
   position: relative;
   width: 33%;
   text-transform: uppercase;
+  min-width: max-content;
+  padding: 0 10px;
 }
 
 .play {
   width: 33%;
+  background-color: #AFB7E4;
 }
 
 .winners {
@@ -295,7 +321,7 @@ ul {
 .field {
   width: 100%;
   height: 100%;
-  background-color: grey;
+  background-color: #D3F0D1;
 }
 
 .active {
