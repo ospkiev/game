@@ -6,10 +6,10 @@
     <b-row>
       <b-col
         cols="12"
-        md="6"
+        md="8"
         class="pt-4"
       >
-        <div class="d-flex">
+        <div class="d-flex input_wrapper">
           <b-button
             type="button"
             name="button"
@@ -78,7 +78,7 @@
       </b-col>
       <b-col
         cols="12"
-        md="6"
+        md="4"
         class="pt-4"
       >
         <h2 class="text-center mb-3">
@@ -275,8 +275,8 @@ ul {
   list-style: none;;
 }
 
-.container {
-  background-color: #85D6CE;
+.input_wrapper {
+  padding: 30px 10px 10px;
 }
 
 .name {
@@ -290,7 +290,7 @@ ul {
 }
 
 .button {
-  background-color: #AFB7E4;
+  background-color: #1B3950;
   color: #ffffff;
   position: relative;
   width: 33%;
@@ -301,7 +301,7 @@ ul {
 
 .play {
   width: 33%;
-  background-color: #AFB7E4;
+  background-color: #1B3950;
 }
 
 .winners {

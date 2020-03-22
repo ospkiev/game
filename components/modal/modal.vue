@@ -41,17 +41,16 @@ export default {
 <style lang="scss" scoped>
 
 .modes {
-  background-color: grey;
-  top: 25px;
+  background-color: #1B3950;
+  top: 37px;
   position: absolute;
   left: -500px;
   width: 100%;
   text-align: left;
   transition: 0.3s ease-in-out;
-  border: 1px solid #222;
   &-item {
     cursor: pointer;
-    color: #222;
+    color: #ffffff;
     font-size: 14px;
     text-transform: uppercase;
     display: flex;
