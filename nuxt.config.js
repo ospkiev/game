@@ -47,8 +47,25 @@ export default {
     https: true,
   },
   build: {
-    vendor: [
-      '@nuxtjs/axios',
-    ],
+    extractCSS: true,
+    optimizeCSS: true,
+    minimize: true,
+    splitChunks: {
+      chunks: 'all',
+    },
+    html: {
+      minify: {
+        collapseBooleanAttributes: true,
+        decodeEntities: true,
+        minifyCSS: true,
+        minifyJS: true,
+        processConditionalComments: true,
+        removeEmptyAttributes: true,
+        removeRedundantAttributes: true,
+        trimCustomFragments: true,
+        collapseWhitespace: true,
+      },
+    },
+    vendor: ['@nuxtjs/axios'],
   },
 };
