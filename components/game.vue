@@ -186,6 +186,7 @@ export default {
       this.userCell = [];
       this.name = '';
       this.activeModeParams = {};
+      this.activeModeName = '';
       clearTimeout(this.timer);
     },
     end(winner) {
