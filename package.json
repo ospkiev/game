@@ -13,13 +13,13 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
     "bootstrap": "^4.4.1",
     "bootstrap-vue": "^2.4.0",
-    "gh-pages": "^2.2.0",
+    "gh-pages": "^2.0.1",
     "nuxt": "^2.0.0"
   },
   "devDependencies": {
