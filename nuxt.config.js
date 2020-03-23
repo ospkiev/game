@@ -35,7 +35,6 @@ export default {
   */
   buildModules: [
   ],
-  router: { base: '/Ga/' },
   /*
   ** Nuxt.js modules
   */
