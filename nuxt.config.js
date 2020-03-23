@@ -35,9 +35,6 @@ export default {
   */
   buildModules: [
   ],
-  router: {
-    base: '/Game/',
-  },
   /*
   ** Nuxt.js modules
   */
@@ -53,8 +50,3 @@ export default {
     vendor: ['@nuxtjs/axios'],
   },
 };
-export const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
-  router: {
-    base: '/Game/',
-  },
-} : {};
