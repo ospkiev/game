@@ -35,6 +35,9 @@ export default {
   */
   buildModules: [
   ],
+  router: {
+    base: '/Game/',
+  },
   /*
   ** Nuxt.js modules
   */
@@ -47,25 +50,11 @@ export default {
     https: true,
   },
   build: {
-    extractCSS: true,
-    optimizeCSS: true,
-    minimize: true,
-    splitChunks: {
-      chunks: 'all',
-    },
-    html: {
-      minify: {
-        collapseBooleanAttributes: true,
-        decodeEntities: true,
-        minifyCSS: true,
-        minifyJS: true,
-        processConditionalComments: true,
-        removeEmptyAttributes: true,
-        removeRedundantAttributes: true,
-        trimCustomFragments: true,
-        collapseWhitespace: true,
-      },
-    },
     vendor: ['@nuxtjs/axios'],
   },
 };
+export const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
+  router: {
+    base: '/Game/',
+  },
+} : {};
