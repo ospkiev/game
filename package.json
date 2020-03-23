@@ -1,5 +1,5 @@
 {
-  "name": "the_game",
+  "name": "Ga",
   "version": "1.0.0",
   "description": "My superb Nuxt.js project",
   "author": "Pavel Karpenko",
@@ -19,6 +19,7 @@
     "@nuxtjs/axios": "^5.3.6",
     "bootstrap": "^4.4.1",
     "bootstrap-vue": "^2.4.0",
+    "gh-pages": "^2.2.0",
     "nuxt": "^2.0.0"
   },
   "devDependencies": {
