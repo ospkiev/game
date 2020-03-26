@@ -8,6 +8,15 @@
         md="8"
         class="pt-4"
       >
+        <div>
+          <b-button
+            v-b-modal.modal-scrollable
+            class="button"
+          >
+            Rules
+          </b-button>
+          <modalRules />
+        </div>
         <div class="d-flex input_wrapper">
           <b-button
             type="button"
@@ -111,11 +120,13 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import modal from '~/components/modal/modal.vue';
+import modal from '~/components/modals/modal.vue';
+import modalRules from '~/components/modals/modal-rules.vue';
 
 export default {
   components: {
     modal,
+    modalRules,
   },
   data: () => ({
     isShow: false,
@@ -295,7 +306,6 @@ ul {
   background-color: #1B3950;
   color: #ffffff;
   position: relative;
-  width: 33%;
   text-transform: uppercase;
   min-width: max-content;
   padding: 0 10px;
