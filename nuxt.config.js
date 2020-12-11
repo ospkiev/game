@@ -1,11 +1,12 @@
 const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
   router: {
-    base: '/the_game/',
+    base: '/Game/',
   },
 } : {};
 
 export default {
-  mode: 'spa',
+  target: 'static',
+  ssr: false,
   /*
   ** Headers of the page
   */
@@ -21,7 +22,6 @@ export default {
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Inter&display=swap' },
     ],
   },
-  ...routerBase,
   /*
   ** Customize the progress-bar color
   */
