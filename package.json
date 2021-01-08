@@ -15,11 +15,11 @@
     "deploy": "push-dir --dir=dist --branch=gh-pages --cleanup"
   },
   "dependencies": {
-    "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/axios": "^5.12.5",
     "bootstrap": "^4.4.1",
     "bootstrap-vue": "^2.4.0",
     "gh-pages": "^2.2.0",
-    "nuxt": "^2.0.0"
+    "nuxt": "^2.14.12"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^0.0.1",
