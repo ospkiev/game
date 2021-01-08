@@ -13,7 +13,7 @@
             v-b-modal.modal-scrollable
             class="button"
           >
-            Rules
+            Game rules
           </b-button>
           <modalRules />
         </div>
