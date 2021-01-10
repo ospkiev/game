@@ -11,7 +11,7 @@
         <div>
           <b-button
             v-b-modal.modal-scrollable
-            class="button"
+            class="button rules__btn"
           >
             Game rules
           </b-button>
@@ -35,7 +35,7 @@
             v-model="name"
             class="px-1"
             type="text"
-            placeholder="Enter your name"
+            placeholder="Please enter your name!"
           />
           <b-button
             type="button"
@@ -51,8 +51,11 @@
             <p class="date pl-3">
               {{ date }}
             </p>
-            <p class="pr-3">
-              {{ name }}
+            <p
+              v-show="name"
+              class="pr-3"
+            >
+              {{ `Hello ${name}` }}
             </p>
           </div>
         </div>
@@ -96,32 +99,22 @@
         </h2>
         <ul class="winners mx-auto">
           <li
-            v-for="winner in winners"
+            v-for="(winner, index) in winners"
             :key="winner.id"
+            :class="{ your__game : index === winners.length - 1 && playButton === 'Play again'}"
           >
             {{ winner.winner }} : {{ winner.date }}
           </li>
         </ul>
       </b-col>
     </b-row>
-    <b-modal
-      id="modal-center"
-      ref="winner-modal"
-      hide-footer
-      centered
-      title="Winner"
-    >
-      <p class="my-4">
-        {{ `${name} winner` }}
-      </p>
-    </b-modal>
   </b-container>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import modal from '~/components/modals/modal.vue';
 import modalRules from '~/components/modals/modal-rules.vue';
+import modal from '~/components/modals/modal.vue';
 
 export default {
   components: {
@@ -133,7 +126,7 @@ export default {
     activeModeName: '',
     activeModeParams: {},
     name: '',
-    timer: null,
+    timer: '',
     computerCell: [],
     userCell: [],
     activeCell: '',
@@ -187,8 +180,8 @@ export default {
     showModes() {
       this.isShow = !this.isShow;
     },
-    changeMode(name, value) {
-      this.activeModeName = name;
+    changeMode(title, value) {
+      this.activeModeName = title;
       this.activeModeParams = value;
     },
     startPosition() {
@@ -203,7 +196,6 @@ export default {
     end(winner) {
       clearTimeout(this.timer);
       this.name = `${winner}`;
-      this.$refs['winner-modal'].show();
       this.playButton = 'Play again';
       this.activeModeName = '';
       this.activeCell = '';
@@ -218,7 +210,7 @@ export default {
     },
     start() {
       if (!this.activeModeName) {
-        alert('pick the mode');
+        alert('Pick the mode');
       } else if (!this.name) {
         alert('Enter your name');
       } else {
@@ -241,20 +233,10 @@ export default {
       }
     },
     randomNumber() {
-      let num1 = Number((Math.random() * 10).toFixed(0));
-      let num2 = Number((Math.random() * 10).toFixed(0));
-      if (num2 === 0) {
-        num2 += 1;
-      }
-      if (num1 === 0) {
-        num1 += 1;
-      }
-      if (num1 > this.activeModeParams.field) {
-        num1 -= this.activeModeParams.field;
-      }
-      if (num2 > this.activeModeParams.field) {
-        num2 -= this.activeModeParams.field;
-      }
+      const max = this.activeModeParams.field;
+      const min = 1;
+      const num1 = Math.floor(Math.random() * (max - min + 1)) + min;
+      const num2 = Math.floor(Math.random() * (max - min + 1)) + min;
       return `${num1}${num2}`;
     },
     randomCell() {
@@ -294,6 +276,10 @@ ul {
 
 .name {
   min-height: 40px;
+  p:last-child {
+    color: red;
+    font-weight: 700;
+  }
 }
 
 .main {
@@ -309,6 +295,9 @@ ul {
   text-transform: uppercase;
   min-width: max-content;
   padding: 0 10px;
+  &.rules__btn {
+    margin: 0 10px;
+  }
 }
 
 .play {
@@ -320,6 +309,7 @@ ul {
   width: max-content;
   height: 400px;
   overflow-y: scroll;
+  padding: 0 10px;
 }
 
 .cell {
@@ -351,5 +341,22 @@ ul {
 
 .date {
   width: max-content;
+}
+
+.your__game {
+  color: #2A9685;
+  font-weight: 700;
+  animation: result 0.5s ease 15;
+}
+
+@keyframes result {
+  0% {
+    color: #222;
+  }
+  100% {
+    color: #2A9685;
+    font-weight: 900;
+    text-shadow: 3px 5px 9px #2A9685;
+  }
 }
 </style>

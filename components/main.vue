@@ -1,9 +1,10 @@
 <template lang="html">
   <div class="main">
+    <h1 class="start">
+      Nimble
+    </h1>
     <nuxt-link to="/game">
-      <h1 class="start">
-        Lets start game
-      </h1>
+      <h6>Lets start the game</h6>
     </nuxt-link>
   </div>
 </template>
@@ -22,6 +23,7 @@ export default {
   justify-content: center;
   align-items: center;
   text-align: center;
+  flex-direction: column;
   min-height: 100vh;
 }
 
@@ -36,7 +38,7 @@ h1 {
 
 &:after,
 &:before {
-  content: 'Lets start game';
+  content: 'Nimble';
   position: absolute;
   top: 0;
   color: #fff;
@@ -57,7 +59,7 @@ h1 {
 }
 @media(max-width: 992px) {
   font-size: 50px;
-}
+  }
 }
 
 @keyframes glitch1 {
