@@ -344,7 +344,7 @@ ul {
 }
 
 .your__game {
-  color: #2A9685;
+  color: red;
   font-weight: 700;
   animation: result 0.5s ease 15;
 }
@@ -353,10 +353,13 @@ ul {
   0% {
     color: #222;
   }
-  100% {
-    color: #2A9685;
+  50% {
+    color: red;
     font-weight: 900;
-    text-shadow: 3px 5px 9px #2A9685;
+    text-shadow: 3px 5px 9px red;
+  }
+  100% {
+    color: #222;
   }
 }
 </style>
