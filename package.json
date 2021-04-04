@@ -1,5 +1,5 @@
 {
-  "name": "Game",
+  "name": "Nimble",
   "version": "1.0.0",
   "description": "My superb Nuxt.js project",
   "author": "Pavel Karpenko",
@@ -46,5 +46,5 @@
     "sass-loader": "^7.1.0",
     "vue-jest": "^3.0.3"
   },
-  "homepage": "https://ospkiev.github.io/Game"
+  "homepage": "https://ospkiev.github.io/Nimble/"
 }
