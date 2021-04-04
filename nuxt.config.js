@@ -1,7 +1,7 @@
 export default {
   target: 'static',
   router: {
-    base: '/game/',
+    base: '/Nimble/',
   },
   head: {
     title: 'game',
