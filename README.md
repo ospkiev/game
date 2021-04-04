@@ -1,2 +1,2 @@
 Link to game
-https://ospkiev.github.io/game/
+https://ospkiev.github.io/Nimble/
