@@ -44,7 +44,7 @@
     "nodemon": "^1.18.9",
     "push-dir": "^0.4.1",
     "sass-loader": "^7.1.0",
-    "vue-jest": "^3.0.3"
+    "vue-jest": "^4.0.1"
   },
   "homepage": "https://ospkiev.github.io/Nimble/"
 }
